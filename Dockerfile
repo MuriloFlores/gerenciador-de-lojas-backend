@@ -1,5 +1,5 @@
 # Use golang:1.22 como construtor
-FROM golang:1.22 as BUILDER
+FROM golang:1.22.2 as BUILDER
 
 # Defina o diretório de trabalho no construtor
 WORKDIR /app
@@ -19,7 +19,7 @@ COPY main.go .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on GOOS=linux go build -o trecepage . 
 
 # Use golang:1.22-alpine como executor
-FROM golang:1.22-alpine as RUNNER
+FROM golang:1.22.2-alpine as RUNNER
 
 # Copie a aplicação construída do construtor para o executor
 COPY --from=BUILDER /app/trecepage .
