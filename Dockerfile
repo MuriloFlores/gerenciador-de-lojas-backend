@@ -15,7 +15,7 @@ COPY go.mod .
 COPY main.go .
 
 # Construa a aplicação
-RUN go build -o trecepage .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on GOOS=linux go build -o trecepage . 
 
 # Use golang:1.22-alpine como executor
 FROM golang:1.22-alpine as RUNNER
