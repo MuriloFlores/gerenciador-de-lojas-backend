@@ -1,17 +1,30 @@
+# Use golang:1.22 como construtor
 FROM golang:1.22 as BUILDER
 
+# Defina o diretório de trabalho no construtor
 WORKDIR /app
 
-COPY cmd cmd
-COPY go.mod go.mod
-COPY main.go main.go
+# Copie o diretório 'cmd' do diretório atual para o diretório 'app' no construtor
+# Se o diretório 'cmd' não estiver no diretório atual, substitua '.' pelo caminho correto
+COPY ./cmd ./cmd
 
+# Copie o arquivo go.mod
+COPY go.mod .
+
+# Copie o arquivo main.go
+COPY main.go .
+
+# Construa a aplicação
 RUN go build -o trecepage .
 
+# Use golang:1.22-alpine como executor
 FROM golang:1.22-alpine as RUNNER
 
+# Copie a aplicação construída do construtor para o executor
 COPY --from=BUILDER /app/trecepage .
 
+# Exponha a porta 8080
 EXPOSE 8080
 
+# Execute a aplicação
 CMD ["./trecepage"]
