@@ -1,22 +1,24 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 )
 
 func main() {
 	r := gin.Default()
 
-	r.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"*"},
-	}))
+	// Configuração do CORS para permitir qualquer origem
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
 
-	r.GET("/", func(c *gin.Context) {
+	r.Use(cors.New(config))
+
+	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
 	})
 
-	r.Run()
+	r.Run() // escuta e serve na porta 0.0.0.0:8080
 }
