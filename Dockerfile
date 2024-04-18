@@ -11,6 +11,7 @@ COPY ./cmd ./cmd
 # Copie o arquivo go.mod
 COPY go.mod .
 
+COPY go.sum .
 # Copie o arquivo main.go
 COPY main.go .
 
